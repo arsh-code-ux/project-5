@@ -1,0 +1,285 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  🌩️ THUNDER CLIENT - QUICK START GUIDE                     ║
+║                                                                            ║
+║                ApexLMS Learning Management System API Testing              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📌 HOW TO USE THIS GUIDE
+═══════════════════════════════════════════════════════════════════════════════
+
+This guide has 19 STEPS with EXACT bodies for Thunder Client testing.
+
+Each step includes:
+✓ HTTP Method (GET, POST, PUT, DELETE)
+✓ Complete URL
+✓ Headers required
+✓ Request Body (JSON)
+✓ Expected Response
+✓ Database storage information
+
+
+🚀 GETTING STARTED
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Open Thunder Client (VSCode Extension or Web)
+2. Create a new request
+3. Follow steps 1-19 in order
+4. Copy-paste the exact body from this guide
+5. Watch MongoDB update in real-time
+
+
+📊 API STRUCTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+Base URL: http://localhost:5000/api
+
+Categories:
+  🔐 Authentication (Steps 1-4)     → User registration & login
+  📚 Courses (Steps 5-10)           → Course CRUD operations
+  📝 Enrollments (Steps 11-17)      → Student enrollments
+  🏥 System (Steps 18-19)           → Cleanup & health check
+
+
+�� IMPORTANT - SAVE THESE IDs
+═══════════════════════════════════════════════════════════════════════════════
+
+After Step 1 (Register Student):
+  Copy the "token" value → Save as YOUR_STUDENT_TOKEN
+
+After Step 2 (Register Teacher):
+  Copy the "token" value → Save as YOUR_TEACHER_TOKEN
+
+After Step 5 (Create Course 1):
+  Copy the "_id" from response → Save as COURSE_1_ID
+
+After Step 6 (Create Course 2):
+  Copy the "_id" from response → Save as COURSE_2_ID
+
+After Step 11 (Enroll in Course 1):
+  Copy the "_id" from response → Save as ENROLLMENT_1_ID
+
+After Step 12 (Enroll in Course 2):
+  Copy the "_id" from response → Save as ENROLLMENT_2_ID
+
+
+⚠️ THUNDER CLIENT SETUP
+═══════════════════════════════════════════════════════════════════════════════
+
+For requests with Authorization:
+1. Click "Auth" tab
+2. Select "Bearer Token"
+3. Paste your token
+
+OR manually add header:
+1. Click "Headers" tab
+2. Add: Authorization: Bearer <YOUR_TOKEN>
+
+
+📋 STEP-BY-STEP WORKFLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+PHASE 1: AUTHENTICATION (Steps 1-4)
+──────────────────────────────────────
+Step 1  → Register Student
+         Response: Get student token ✅ Save it!
+         
+Step 2  → Register Teacher
+         Response: Get teacher token ✅ Save it!
+         
+Step 3  → Login Student (verify credentials work)
+         Response: Get new token
+         
+Step 4  → Get Profile (test protected endpoint)
+         Use: Student token in Authorization header
+
+Database so far: ✅ 2 users in 'users' collection
+
+
+PHASE 2: COURSE MANAGEMENT (Steps 5-10)
+─────────────────────────────────────────
+Step 5  → Create Course 1 (React)
+         Use: Teacher token
+         Response: Get course ID ✅ Save it!
+
+Step 6  → Create Course 2 (Python ML)
+         Use: Teacher token
+         Response: Get course ID ✅ Save it!
+
+Step 7  → Get All Courses
+         No auth needed
+         Response: See both courses in list
+
+Step 8  → Get Courses by Category
+         Filter: ?category=Web Development
+         Response: See only React course
+
+Step 9  → Get Single Course
+         URL: /api/courses/COURSE_1_ID
+         Response: Full React course details
+
+Step 10 → Update Course
+         Use: Teacher token
+         Update Course 1 (React) with new content
+
+Database so far: ✅ 2 courses in 'courses' collection
+
+
+PHASE 3: STUDENT ENROLLMENTS (Steps 11-17)
+──────────────────────────────────────────
+Step 11 → Enroll in Course 1
+          Use: Student token
+          Body: { "courseId": "COURSE_1_ID" }
+          Response: Get enrollment ID ✅ Save it!
+
+Step 12 → Enroll in Course 2
+          Use: Student token
+          Body: { "courseId": "COURSE_2_ID" }
+          Response: Get enrollment ID ✅ Save it!
+
+Step 13 → Get My Enrollments
+          Use: Student token
+          Response: See both enrollments listed
+
+Step 14 → Update Progress to 50%
+          Use: Student token
+          URL: /api/enrollments/ENROLLMENT_1_ID/progress
+          Body: { "progress": 50 }
+          Response: progress updated ✅
+
+Step 15 → Complete Course (100%)
+          Use: Student token
+          URL: /api/enrollments/ENROLLMENT_1_ID/progress
+          Body: { "progress": 100 }
+          Response: status changes to "completed" ✅
+
+Step 16 → Update Course 2 Progress to 75%
+          Use: Student token
+          URL: /api/enrollments/ENROLLMENT_2_ID/progress
+          Body: { "progress": 75 }
+
+Step 17 → Unenroll from Course 2
+          Use: Student token
+          URL: DELETE /api/enrollments/ENROLLMENT_2_ID
+          Response: Successfully unenrolled ✅
+
+Database so far: ✅ Enrollments updated/created
+
+
+PHASE 4: CLEANUP (Steps 18-19)
+─────────────────────────────────
+Step 18 → Delete Course 2
+          Use: Teacher token
+          URL: DELETE /api/courses/COURSE_2_ID
+          Response: Course deleted ✅
+
+Step 19 → Server Health Check
+          URL: /api/health
+          Response: Server is operational ✅
+
+Final Database State:
+  ✅ users: 2 documents (student + teacher)
+  ✅ courses: 1 course (React)
+  ✅ enrollments: 1 enrollment (React, 100% complete)
+
+
+💾 DATABASE VERIFICATION
+═══════════════════════════════════════════════════════════════════════════════
+
+After all 19 steps, check MongoDB Atlas:
+
+1. Go to: https://cloud.mongodb.com
+2. Login to your account
+3. Click on "MyCluster" → "apex_lms" database
+4. Collections:
+
+   ✅ users collection
+      - Document 1: student_demo (student)
+      - Document 2: teacher_demo (teacher)
+
+   ✅ courses collection
+      - Document 1: Advanced React.js & TypeScript (UPDATED)
+      - (Python ML - DELETED)
+
+   ✅ enrollments collection
+      - Document 1: Student → React (100% progress, completed)
+      - (Python ML enrollment - DELETED)
+
+
+🔍 COMMON ISSUES & FIXES
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLEM: "Not authorized, no token provided"
+FIX: Make sure Authorization header is set correctly
+     Header: Authorization
+     Value: Bearer YOUR_TOKEN
+
+PROBLEM: "Invalid or expired token"
+FIX: Token expired (>30 days)
+     Solution: Login again (Step 3)
+
+PROBLEM: "User role 'student' is not authorized"
+FIX: Using student token for teacher action
+     Solution: Use teacher token instead
+
+PROBLEM: "Course not found"
+FIX: Invalid course ID in URL
+     Solution: Get ID from Step 5 or 6 response
+
+PROBLEM: "You are already enrolled in this course"
+FIX: Already enrolled in this course
+     Solution: Can't enroll in same course twice
+
+PROBLEM: "Cloud agent error"
+FIX: Using Postman cloud (not applicable to Thunder Client)
+     Thunder Client works fine locally
+
+
+📞 TIPS FOR SUCCESS
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Follow steps in ORDER (don't skip)
+2. Copy IDs from responses into subsequent requests
+3. Always include Bearer token for protected endpoints
+4. Check response status code (201 Created, 200 OK, etc.)
+5. Verify data appears in MongoDB Atlas after each step
+6. Save responses with important IDs
+7. Use Thunder Client's environment variables to store tokens
+
+
+🎯 YOUR TESTING GOALS
+═══════════════════════════════════════════════════════════════════════════════
+
+After completing all 19 steps:
+  ✓ All 15 API endpoints tested
+  ✓ All data persisted to MongoDB
+  ✓ User authentication working
+  ✓ Role-based access control verified
+  ✓ Course CRUD operations confirmed
+  ✓ Student enrollment system functional
+  ✓ Progress tracking operational
+  ✓ Deletion cascade working
+
+STATUS: ✅ ApexLMS API FULLY OPERATIONAL
+
+
+📄 FILE REFERENCE
+═══════════════════════════════════════════════════════════════════════════════
+
+THUNDER_CLIENT_GUIDE.md           ← Detailed 19-step guide (READ THIS!)
+ApexLMS_Thunder_Collection.json   ← Import into Thunder Client
+README.md                         ← Complete project documentation
+API_URLS_REFERENCE.md             ← Quick URL reference
+
+
+✨ YOU'RE READY!
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Open THUNDER_CLIENT_GUIDE.md
+2. Follow Steps 1-19 with exact bodies
+3. Copy IDs as instructed
+4. Verify responses match expected outputs
+5. Check MongoDB Atlas for data persistence
+
+                    Happy Testing! 🚀
+
+═══════════════════════════════════════════════════════════════════════════════

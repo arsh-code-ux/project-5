@@ -1,0 +1,281 @@
+{
+  "clientName": "ApexLMS Thunder Client Collection",
+  "dateExported": "2026-05-25T10:30:00.000Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "name": "Authentication",
+      "requests": [
+        {
+          "name": "1. Register Student",
+          "method": "POST",
+          "url": "http://localhost:5000/api/auth/register",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"username\": \"student_demo\",\n  \"email\": \"student@demo.com\",\n  \"password\": \"Student@123\",\n  \"role\": \"student\"\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "2. Register Teacher",
+          "method": "POST",
+          "url": "http://localhost:5000/api/auth/register",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"username\": \"teacher_demo\",\n  \"email\": \"teacher@demo.com\",\n  \"password\": \"Teacher@123\",\n  \"role\": \"teacher\"\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "3. Login Student",
+          "method": "POST",
+          "url": "http://localhost:5000/api/auth/login",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"email\": \"student@demo.com\",\n  \"password\": \"Student@123\"\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "4. Get Student Profile",
+          "method": "GET",
+          "url": "http://localhost:5000/api/auth/profile",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "requests": [
+        {
+          "name": "5. Create Course 1 - React",
+          "method": "POST",
+          "url": "http://localhost:5000/api/courses",
+          "headers": {
+            "Authorization": "Bearer YOUR_TEACHER_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"title\": \"React.js Mastery\",\n  \"description\": \"Learn React.js with hooks, context API, and state management for building modern web applications\",\n  \"category\": \"Web Development\",\n  \"duration\": \"8 Weeks\",\n  \"syllabus\": [\n    \"React Basics\",\n    \"JSX and Components\",\n    \"Hooks (useState, useEffect)\",\n    \"Context API\",\n    \"State Management\"\n  ]\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "6. Create Course 2 - Python ML",
+          "method": "POST",
+          "url": "http://localhost:5000/api/courses",
+          "headers": {
+            "Authorization": "Bearer YOUR_TEACHER_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"title\": \"Python Machine Learning\",\n  \"description\": \"Master machine learning with Python using Scikit-learn, TensorFlow, and Keras for building intelligent applications\",\n  \"category\": \"Data Science\",\n  \"duration\": \"10 Weeks\",\n  \"syllabus\": [\n    \"Python Basics\",\n    \"NumPy and Pandas\",\n    \"Data Visualization\",\n    \"Scikit-learn\",\n    \"TensorFlow and Keras\",\n    \"Model Evaluation\"\n  ]\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "7. Get All Courses",
+          "method": "GET",
+          "url": "http://localhost:5000/api/courses",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "8. Get Courses by Category",
+          "method": "GET",
+          "url": "http://localhost:5000/api/courses?category=Web Development",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "9. Get Single Course",
+          "method": "GET",
+          "url": "http://localhost:5000/api/courses/COURSE_ID_HERE",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "10. Update Course",
+          "method": "PUT",
+          "url": "http://localhost:5000/api/courses/COURSE_ID_HERE",
+          "headers": {
+            "Authorization": "Bearer YOUR_TEACHER_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"title\": \"Advanced React.js & TypeScript Mastery\",\n  \"description\": \"Advanced React.js with TypeScript, hooks, context API, performance optimization, and testing for building production-ready web applications\",\n  \"category\": \"Web Development\",\n  \"duration\": \"10 Weeks\",\n  \"syllabus\": [\n    \"React Basics\",\n    \"TypeScript with React\",\n    \"JSX and Components\",\n    \"Hooks (useState, useEffect, useContext, useReducer)\",\n    \"Context API and Redux\",\n    \"Performance Optimization\",\n    \"Testing with Jest\",\n    \"State Management\"\n  ]\n}"
+          },
+          "tests": [],
+          "auth": null
+        }
+      ]
+    },
+    {
+      "name": "Enrollments",
+      "requests": [
+        {
+          "name": "11. Enroll in Course 1",
+          "method": "POST",
+          "url": "http://localhost:5000/api/enrollments",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"courseId\": \"COURSE_1_ID_HERE\"\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "12. Enroll in Course 2",
+          "method": "POST",
+          "url": "http://localhost:5000/api/enrollments",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"courseId\": \"COURSE_2_ID_HERE\"\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "13. Get My Enrollments",
+          "method": "GET",
+          "url": "http://localhost:5000/api/enrollments",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "14. Update Progress - 50%",
+          "method": "PUT",
+          "url": "http://localhost:5000/api/enrollments/ENROLLMENT_1_ID_HERE/progress",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"progress\": 50\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "15. Update Progress - 100% Complete",
+          "method": "PUT",
+          "url": "http://localhost:5000/api/enrollments/ENROLLMENT_1_ID_HERE/progress",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"progress\": 100\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "16. Update Progress - Course 2 75%",
+          "method": "PUT",
+          "url": "http://localhost:5000/api/enrollments/ENROLLMENT_2_ID_HERE/progress",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "json",
+            "content": "{\n  \"progress\": 75\n}"
+          },
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "17. Unenroll from Course",
+          "method": "DELETE",
+          "url": "http://localhost:5000/api/enrollments/ENROLLMENT_2_ID_HERE",
+          "headers": {
+            "Authorization": "Bearer YOUR_STUDENT_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        }
+      ]
+    },
+    {
+      "name": "System",
+      "requests": [
+        {
+          "name": "18. Delete Course",
+          "method": "DELETE",
+          "url": "http://localhost:5000/api/courses/COURSE_2_ID_HERE",
+          "headers": {
+            "Authorization": "Bearer YOUR_TEACHER_TOKEN_HERE",
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        },
+        {
+          "name": "19. Server Health Check",
+          "method": "GET",
+          "url": "http://localhost:5000/api/health",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": null,
+          "tests": [],
+          "auth": null
+        }
+      ]
+    }
+  ]
+}

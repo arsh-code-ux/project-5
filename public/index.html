@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexLMS | Premium Academic Portal</title>
+  
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for visual aesthetics -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+  
+  <!-- Core Design CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="dark-theme">
+
+  <!-- Floating Toast Notification System -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ================= GUEST ENTRY GATEWAY (AUTHENTICATION wrapper) ================= -->
+  <div id="auth-container" class="auth-wrapper active">
+    <div class="auth-visual">
+      <div class="auth-visual-overlay"></div>
+      <div class="auth-visual-content">
+        <div class="brand-logo">
+          <i class="fa-solid fa-graduation-cap logo-pulse"></i>
+          <span>ApexLMS</span>
+        </div>
+        <h1>Elevate your learning experience.</h1>
+        <p>A unified, production-grade academic management environment. Browse advanced catalogs, enroll in structured curriculum pipelines, track coursework progress, and manage syllabus milestones in real-time.</p>
+        <div class="visual-features">
+          <div class="v-feat"><i class="fa-solid fa-shield-halved"></i> <span>JWT Session Authentication</span></div>
+          <div class="v-feat"><i class="fa-solid fa-graduation-cap"></i> <span>Dynamic Student & Instructor Portals</span></div>
+          <div class="v-feat"><i class="fa-solid fa-database"></i> <span>Mongoose Active Persistence</span></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="auth-forms-pane">
+      <!-- Login panel -->
+      <div id="login-card" class="auth-card active">
+        <div class="auth-header">
+          <h2>Welcome back</h2>
+          <p>Sign in to your learning dashboard catalog</p>
+        </div>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="fa-regular fa-envelope"></i>
+              <input type="email" id="login-email" required placeholder="student@university.edu">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="login-password" required placeholder="••••••••">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <span>Log In Portal</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          </button>
+        </form>
+        <div class="auth-footer">
+          <p>Don't have an account? <a href="#" id="toggle-register">Create an account</a></p>
+        </div>
+      </div>
+
+      <!-- Register panel -->
+      <div id="register-card" class="auth-card">
+        <div class="auth-header">
+          <h2>Create account</h2>
+          <p>Join ApexLMS to begin your academic track</p>
+        </div>
+        <form id="register-form">
+          <div class="form-group">
+            <label for="register-username">Username</label>
+            <div class="input-wrapper">
+              <i class="fa-regular fa-user"></i>
+              <input type="text" id="register-username" required placeholder="johndoe">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="fa-regular fa-envelope"></i>
+              <input type="email" id="register-email" required placeholder="student@university.edu">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-password">Password</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="register-password" required placeholder="At least 6 characters">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Select User Role</label>
+            <div class="role-selector">
+              <label class="role-option active">
+                <input type="radio" name="role" value="student" checked>
+                <div class="role-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                <div class="role-meta">
+                  <span class="role-title">Student</span>
+                  <span class="role-desc">Browse catalogs, enroll & update course progress</span>
+                </div>
+              </label>
+              <label class="role-option">
+                <input type="radio" name="role" value="teacher">
+                <div class="role-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <div class="role-meta">
+                  <span class="role-title">Teacher</span>
+                  <span class="role-desc">Create courses, manage syllabus & track students</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <span>Register Account</span> <i class="fa-solid fa-user-plus"></i>
+          </button>
+        </form>
+        <div class="auth-footer">
+          <p>Already have an account? <a href="#" id="toggle-login">Sign in instead</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= APP CONTROL WORKSPACE (LOGGED IN VIEWS) ================= -->
+  <div id="app-container" class="app-layout">
+    
+    <!-- Sidebar Left Navigation Menu -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <i class="fa-solid fa-graduation-cap text-primary"></i>
+          <span>ApexLMS</span>
+        </div>
+        <button id="sidebar-close" class="mobile-only-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="#" class="nav-link active" data-view="dashboard">
+              <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link" data-view="catalog">
+              <i class="fa-solid fa-book-open"></i> <span>Course Catalog</span>
+            </a>
+          </li>
+          <li id="nav-item-mycourses">
+            <a href="#" class="nav-link" data-view="mycourses">
+              <i class="fa-solid fa-bookmark"></i> <span id="mycourses-nav-text">My Enrolled Courses</span>
+            </a>
+          </li>
+          <li id="sidebar-teacher-actions" class="hidden">
+            <button id="nav-btn-create-course" class="btn btn-primary btn-submit-feedback">
+              <i class="fa-solid fa-plus"></i> <span>New Course</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">S</div>
+          <div class="user-meta">
+            <span class="username" id="sidebar-username">Student</span>
+            <span class="role-badge" id="sidebar-user-role">Student</span>
+          </div>
+        </div>
+        <button id="btn-logout" class="btn-logout" title="Exit LMS">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Frame -->
+    <main class="main-content">
+      
+      <!-- Top Sticky Status Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle" class="sidebar-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+          <h1 id="page-title" class="page-title">Dashboard Overview</h1>
+        </div>
+        <div class="topbar-right">
+          <!-- Database Sync Status Indicator -->
+          <div class="db-indicator" id="db-status-badge">
+            <span class="status-dot green"></span>
+            <span class="status-text text-muted">MongoDB Connect</span>
+          </div>
+          <div class="profile-summary">
+            <span class="welcome-text text-muted">Welcome, <strong class="text-white" id="header-username">User</strong></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Viewports Content Pane -->
+      <div class="view-content-pane">
+        
+        <!-- Offline MongoDB Connection Warning Banner -->
+        <div id="db-error-banner" class="alert-banner warning-banner hidden">
+          <div class="banner-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="banner-body">
+            <h4>MongoDB Service Connection Offline</h4>
+            <p>The backend cannot establish a connection to your MongoDB URI. Please check if your local 'mongod' service is active or update your MONGO_URI in your `.env` configuration file.</p>
+          </div>
+        </div>
+
+        <!-- ================= VIEWPORT 1: DASHBOARD OVERVIEW ================= -->
+        <section id="view-dashboard" class="app-view active">
+          <!-- Dashboard widgets -->
+          <div class="metrics-grid">
+            <div class="metric-card glass-card">
+              <div class="metric-icon bg-indigo"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div class="metric-info">
+                <h3 id="widget-label-1">Total Catalog Courses</h3>
+                <span class="metric-value" id="stat-total-courses">0</span>
+              </div>
+            </div>
+            
+            <div class="metric-card glass-card">
+              <div class="metric-icon bg-blue"><i class="fa-solid fa-bookmark"></i></div>
+              <div class="metric-info">
+                <h3 id="widget-label-2">My Enrolled Courses</h3>
+                <span class="metric-value" id="stat-my-activities">0</span>
+              </div>
+            </div>
+            
+            <div class="metric-card glass-card">
+              <div class="metric-icon bg-yellow"><i class="fa-solid fa-spinner"></i></div>
+              <div class="metric-info">
+                <h3 id="widget-label-3">In-Progress Courses</h3>
+                <span class="metric-value" id="stat-in-progress">0</span>
+              </div>
+            </div>
+            
+            <div class="metric-card glass-card">
+              <div class="metric-icon bg-green"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="metric-info">
+                <h3 id="widget-label-4">Completed Courses</h3>
+                <span class="metric-value" id="stat-completed">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Academic Dashboard Intro and Guidelines -->
+          <div class="dashboard-charts-layout">
+            <div class="chart-card glass-card" style="grid-column: span 2;">
+              <div class="card-header">
+                <h3>Welcome to ApexLMS</h3>
+                <p>A high-performance portal mapping complete course operations to MongoDB collections</p>
+              </div>
+              <div class="dashboard-info-body">
+                <p>Welcome to your academic pipeline. Here is how to verify and test this assignment:</p>
+                <ul style="margin: 1.5rem 0; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                  <li><i class="fa-solid fa-circle-chevron-right text-primary"></i> <strong>Course Directory</strong>: Visit the Catalog tab to explore all available courses, categories, syllabi, and instructor assignments.</li>
+                  <li><i class="fa-solid fa-circle-chevron-right text-primary"></i> <strong>Registration & Enrollment</strong>: Register as a **Student** to enroll in courses, track syllabus milestones, and complete modules via progress sliders.</li>
+                  <li><i class="fa-solid fa-circle-chevron-right text-primary"></i> <strong>Curriculum Authoring</strong>: Register as a **Teacher** to author new courses, write syllabus details, view enrollment rosters, and edit/delete your courses.</li>
+                  <li><i class="fa-solid fa-circle-chevron-right text-primary"></i> <strong>Data Durability</strong>: Every enrollment, course registration, and account creation is actively committed to the local MongoDB database engine.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEWPORT 2: COURSE CATALOG ================= -->
+        <section id="view-catalog" class="app-view">
+          
+          <!-- Category Filters Bar -->
+          <div class="board-filters-bar glass-card">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="catalog-search" placeholder="Search courses by title, keywords or syllabus...">
+            </div>
+            <div class="filters-actions">
+              <div class="filter-dropdown-wrapper">
+                <i class="fa-solid fa-tags filter-icon"></i>
+                <select id="filter-course-category" class="filter-dropdown">
+                  <option value="">All Categories</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Mobile Apps">Mobile Apps</option>
+                  <option value="Data Science">Data Science</option>
+                  <option value="Cybersecurity">Cybersecurity</option>
+                  <option value="Design">Design</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Courses list grid -->
+          <div class="courses-layout-pane">
+            <div class="loading-spinner hidden" id="catalog-loading">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+              <span>Loading course directories...</span>
+            </div>
+            
+            <div class="empty-state glass-card hidden" id="catalog-empty">
+              <i class="fa-solid fa-folder-open"></i>
+              <h3>No Courses Found</h3>
+              <p>No courses are registered in this category yet. Instructors can register a new course above!</p>
+              <button class="btn btn-primary btn-submit-feedback mt-4 hidden" id="catalog-btn-create-fallback">
+                <i class="fa-solid fa-plus"></i> Author First Course
+              </button>
+            </div>
+            
+            <div class="courses-cards-grid" id="catalog-list-hook">
+              <!-- Dynamically populated cards -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEWPORT 3: MY COURSES / ENROLLMENT TRACKER ================= -->
+        <section id="view-mycourses" class="app-view">
+          <div class="courses-layout-pane">
+            <div class="loading-spinner hidden" id="mycourses-loading">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+              <span>Loading student rosters...</span>
+            </div>
+            
+            <div class="empty-state glass-card hidden" id="mycourses-empty">
+              <i class="fa-solid fa-bookmark"></i>
+              <h3 id="mycourses-empty-title">No Active Enrollments</h3>
+              <p id="mycourses-empty-desc">You are not enrolled in any curriculum courses. Browse the course catalog to register!</p>
+            </div>
+            
+            <div class="courses-cards-grid" id="mycourses-list-hook">
+              <!-- Student active enrolled courses or Instructor student monitoring boards -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= POPUP LIGHTBOX MODALS ================= -->
+
+  <!-- Modal 1: Create or Edit Course Modal (Teachers only) -->
+  <div id="modal-course-form" class="modal-backdrop">
+    <div class="modal-window glass-card">
+      <div class="modal-header">
+        <h2 id="course-modal-title">Author Course Syllabus</h2>
+        <button class="modal-close-btn" id="modal-course-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="course-form-element">
+        <input type="hidden" id="edit-course-id" value="">
+        
+        <div class="form-group">
+          <label for="course-title">Course Title</label>
+          <input type="text" id="course-title" required placeholder="e.g. Advanced Node.js Engineering" maxlength="100">
+        </div>
+        
+        <div class="form-group">
+          <label for="course-category">Subject Category</label>
+          <select id="course-category" required>
+            <option value="" disabled selected>Select subject domain</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Mobile Apps">Mobile Apps</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Design">Design</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="course-duration">Syllabus Course Duration</label>
+          <input type="text" id="course-duration" required placeholder="e.g. 6 Weeks (or 32 Hours)" maxlength="30">
+        </div>
+
+        <div class="form-group">
+          <label for="course-syllabus">Syllabus Topic Milestones (Comma separated list)</label>
+          <input type="text" id="course-syllabus" required placeholder="e.g. Routing, Middlewares, JWT, Mongoose, Deployment">
+        </div>
+        
+        <div class="form-group">
+          <label for="course-desc">Course Description & Goals</label>
+          <textarea id="course-desc" rows="4" required placeholder="Outline course syllabus targets, pre-requisites and lab tasks (minimum 10 characters)..." maxlength="1000"></textarea>
+        </div>
+        
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="modal-course-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-course-action">Register Course</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Core App Controller Script -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

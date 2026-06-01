@@ -1,0 +1,598 @@
+{
+  "info": {
+    "_postman_id": "8c5eb379-cb1e-450f-a496-d86b772c918b",
+    "name": "ApexLMS API Collection",
+    "description": "ApexLMS - Premium college-ready Learning Management System Backend API Collection containing fully automated REST requests for authentication, courses management, and student enrollments.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.token) {",
+                  "    pm.collectionVariables.set(\"lms_token\", jsonData.token);",
+                  "    pm.collectionVariables.set(\"student_id\", jsonData.user.id);",
+                  "    pm.test(\"Student Registered Successfully\", function () {",
+                  "        pm.response.to.have.status(201);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123\",\n  \"role\": \"student\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Register a new student account. On successful registration, the Bearer token and Student ID are automatically saved as collection variables."
+          },
+          "response": []
+        },
+        {
+          "name": "Register Teacher",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.token) {",
+                  "    pm.collectionVariables.set(\"lms_token\", jsonData.token);",
+                  "    pm.collectionVariables.set(\"teacher_id\", jsonData.user.id);",
+                  "    pm.test(\"Teacher Registered Successfully\", function () {",
+                  "        pm.response.to.have.status(201);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"profsmith\",\n  \"email\": \"smith@example.com\",\n  \"password\": \"Password123\",\n  \"role\": \"teacher\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Register a new instructor account. On successful registration, the Bearer token and Teacher ID are automatically saved as collection variables."
+          },
+          "response": []
+        },
+        {
+          "name": "Login Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.token) {",
+                  "    pm.collectionVariables.set(\"lms_token\", jsonData.token);",
+                  "    pm.test(\"Student Logged In Successfully\", function () {",
+                  "        pm.response.to.have.status(200);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Log in with the Student credentials. The JWT Bearer token is automatically updated for all authorized endpoints."
+          },
+          "response": []
+        },
+        {
+          "name": "Login Teacher",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.token) {",
+                  "    pm.collectionVariables.set(\"lms_token\", jsonData.token);",
+                  "    pm.test(\"Teacher Logged In Successfully\", function () {",
+                  "        pm.response.to.have.status(200);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"smith@example.com\",\n  \"password\": \"Password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Log in with the Instructor credentials. The JWT Bearer token is automatically updated for all authorized endpoints."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current Profile (Private)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/profile",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "profile"
+              ]
+            },
+            "description": "Retrieves the profile of the currently logged-in user (Student or Teacher) using the JWT token stored in the collection variables."
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication endpoints for User Register, User Login, and Profile fetch."
+    },
+    {
+      "name": "2. Courses",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/courses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "courses"
+              ]
+            },
+            "description": "Fetch all course catalog specifications available in the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Courses by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/courses?category=Computer Science",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "Computer Science"
+                }
+              ]
+            },
+            "description": "Filters the Course directory to only show courses in a particular Category (e.g. 'Computer Science')."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Course (Teacher Only)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.course) {",
+                  "    pm.collectionVariables.set(\"course_id\", jsonData.course._id);",
+                  "    pm.test(\"Course Created Successfully\", function () {",
+                  "        pm.response.to.have.status(201);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Introduction to Mongoose ODM\",\n  \"description\": \"Learn schemas, compound modeling, reference validations, and query populate operations in MongoDB using Mongoose.\",\n  \"category\": \"Computer Science\",\n  \"duration\": \"6 Weeks\",\n  \"syllabus\": [\n    \"Setup & Database Connects\",\n    \"Defining Schemas & Pre-save Hooks\",\n    \"CRUD operations and Document population\",\n    \"Compound validations and unique indexes\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/courses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "courses"
+              ]
+            },
+            "description": "Create a new course. (NOTE: Must login as Teacher first so that the collection token belongs to a teacher account). The newly created course ID is automatically saved as a collection variable."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Course",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/courses/{{course_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "courses",
+                "{{course_id}}"
+              ]
+            },
+            "description": "Fetch detailed description and instructor populated credentials of a course using its unique ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Course Specification (Teacher Owner)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Advanced Mongoose ODM Design\",\n  \"description\": \"Mastering compound database indices, transaction processing, Mongoose aggregations, and performance profiling in Express.\",\n  \"category\": \"Computer Science\",\n  \"duration\": \"8 Weeks\",\n  \"syllabus\": [\n    \"Aggregation pipelines & filters\",\n    \"Database Transactions\",\n    \"Performance Profiling & Mongoose Middleware Hooks\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/courses/{{course_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "courses",
+                "{{course_id}}"
+              ]
+            },
+            "description": "Modify the details of a course. This will succeed ONLY if the currently logged-in Teacher is the actual creator/instructor of this course."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Course (Teacher Owner)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/courses/{{course_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "courses",
+                "{{course_id}}"
+              ]
+            },
+            "description": "Deletes a course and all associated student enrollments in a single batch. Succeeds only if logged-in user is the course instructor."
+          },
+          "response": []
+        }
+      ],
+      "description": "Courses catalog directories and CRUD endpoints. Gated by authentication and teacher verification rules."
+    },
+    {
+      "name": "3. Enrollments",
+      "item": [
+        {
+          "name": "Enroll in Course (Student Only)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.enrollment) {",
+                  "    pm.collectionVariables.set(\"enrollment_id\", jsonData.enrollment._id);",
+                  "    pm.test(\"Enrolled in Course Successfully\", function () {",
+                  "        pm.response.to.have.status(201);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"{{course_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/enrollments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "enrollments"
+              ]
+            },
+            "description": "Registers the active student in the course specified by `course_id`. (NOTE: Must login as Student first!). Saves the generated enrollment record ID automatically."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Enrollments List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/enrollments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "enrollments"
+              ]
+            },
+            "description": "Fetch active enrollment data. Scoped automatically:\n- Logged-in Student gets their registered courses checklist and progress.\n- Logged-in Teacher gets students rosters who registered for the courses they teach."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Progress (0-100%)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 45\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/enrollments/{{enrollment_id}}/progress",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "enrollments",
+                "{{enrollment_id}}",
+                "progress"
+              ]
+            },
+            "description": "Updates progress percentage for a student's active enrollment. (Valid values: 0 to 100). Sets status to 'completed' automatically when progress reaches 100."
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Course Progress (100%)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/enrollments/{{enrollment_id}}/progress",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "enrollments",
+                "{{enrollment_id}}",
+                "progress"
+              ]
+            },
+            "description": "Complete the course progress to 100%. This updates the course status automatically to 'completed'."
+          },
+          "response": []
+        },
+        {
+          "name": "Unenroll / Cancel Enrollment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/enrollments/{{enrollment_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "enrollments",
+                "{{enrollment_id}}"
+              ]
+            },
+            "description": "Cancels enrollment and deletes the enrollment record. Students can unenroll themselves, and Teachers can purge registrations from courses they teach."
+          },
+          "response": []
+        }
+      ],
+      "description": "Course enrollment operations, progress tracking, and unenrollments catalog."
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{lms_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "lms_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "course_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "enrollment_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "student_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "teacher_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
