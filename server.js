@@ -72,6 +72,22 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/courses', require('./routes/courses'));
 app.use('/api/enrollments', require('./routes/enrollments'));
 
+// Root API welcome route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Welcome to ApexLMS Learning Management API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      courses: '/api/courses',
+      enrollments: '/api/enrollments'
+    },
+    documentation: 'See API_URLS_REFERENCE.md for detailed endpoint documentation'
+  });
+});
+
 // Server health check gateway
 app.get('/api/health', (req, res) => {
   res.status(200).json({
