@@ -4,7 +4,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 
@@ -66,9 +65,6 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/courses', require('./routes/courses'));
 app.use('/api/enrollments', require('./routes/enrollments'));
 
-// --- SERVE SPANNING FRONTEND WEB PORTAL ---
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Server health check gateway
 app.get('/api/health', (req, res) => {
   res.status(200).json({
@@ -76,11 +72,6 @@ app.get('/api/health', (req, res) => {
     message: 'ApexLMS Learning Management API Gateway is operational',
     timestamp: new Date()
   });
-});
-
-// Catch-all route to serve the Single Page Application (SPA) dashboard
-app.get('/*splat', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // --- GLOBAL EXCEPTION INTERCEPTOR ---
