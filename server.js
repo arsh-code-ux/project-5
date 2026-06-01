@@ -15,6 +15,9 @@ connectDB();
 
 const app = express();
 
+// --- TRUST PROXY (Required for Render, Heroku, etc.) ---
+app.set('trust proxy', 1);
+
 // --- SECURITY MIDDLEWARES ---
 // Set security HTTP headers (adjust content security policy to allow CSS fonts and fetch CDN frameworks)
 app.use(
@@ -56,7 +59,11 @@ const limiter = rateLimit({
     error: 'Too many requests from this IP. Please try again after 10 minutes.'
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  skip: (req, res) => {
+    // Skip rate limiting for health check
+    return req.path === '/api/health';
+  }
 });
 app.use('/api/', limiter);
 
